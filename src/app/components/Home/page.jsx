@@ -39,10 +39,10 @@ import { motion, AnimatePresence } from "framer-motion"
 
         let status = ""
 
-        if(percentage <= 50) status = "💔 Breakup"
-        else if(percentage <= 100) status = "🙂 Friends"
-        else if(percentage <= 200) status = "😎 Best Friends"
-        else if(percentage <= 500) status = "❤️ Love"
+        if(percentage <= 10) status = "💔 Breakup"
+        else if(percentage <= 30) status = "🙂 Friends"
+        else if(percentage <= 50) status = "😎 Best Friends"
+        else if(percentage <= 70) status = "❤️ Love"
         else status = "💍 Marriage"
 
         setResult({percentage,status})
@@ -85,7 +85,8 @@ import { motion, AnimatePresence } from "framer-motion"
 
             <button
                 onClick={percentageCalcluater}
-                className="bg-rose-500 hover:bg-rose-600 text-white py-3 rounded-xl font-semibold transition duration-300"
+                style={{cursor:"pointer"}}
+                className="bg-rose-500 hover:bg-rose-600 text-white py-3 rounded-xl font-semibold transition duration-300 "
             >
                 Check Your Status 💌
             </button>
