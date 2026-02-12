@@ -18,7 +18,7 @@ import { motion, AnimatePresence } from "framer-motion"
             (x === "likitha" && y === "jagadeesh") ||
             (x === "jagadeesh" && y === "likitha")
         ){
-            setResult({ percentage: 0, status: "Not Applicable" })
+            setResult({ percentage: 0, status: "Not Applicable",song:"/notapplicable.mp3" })
             return
         }
         let a = x.split("")
@@ -38,14 +38,23 @@ import { motion, AnimatePresence } from "framer-motion"
         let percentage = count * 10
 
         let status = ""
+        let song = ""
 
-        if(percentage <= 10) status = "💔 Breakup"
-        else if(percentage <= 30) status = "🙂 Friends"
-        else if(percentage <= 50) status = "😎 Best Friends"
-        else if(percentage <= 70) status = "❤️ Love"
-        else status = "💍 Marriage"
+        if(count <= 3){ status = "💔 Breakup"
+                                song="/breakup.mp3"}
+        else if(count < 5){ status = "🙂 Friends"
+                                song="/friends.mp3"                            
+        }
+        else if(count<= 8) {status = "😎 Best Friends"
+                                    song = "/bestfriends.mp3"
+        }
+        else if(count< 10) {status = "❤️ Love"
+                                    song = "/love.mp3"
+        }
+        else {status = "💍 Marriage"
+            song="/marriage.mp3"}
 
-        setResult({percentage,status})
+        setResult({percentage,status,song})
         await fetch("/api/save",{
         method:"POST",
         headers:{
@@ -72,26 +81,39 @@ import { motion, AnimatePresence } from "framer-motion"
             <input
                 placeholder="Enter Name 1"
                 value={name1}
-                onChange={(e)=>setName1(e.target.value)}
+                 onChange={(e)=>{
+        setName1(e.target.value)
+        setResult(null)
+    }}
                 className="p-3 rounded-xl outline-none border focus:ring-2 focus:ring-pink-400"
             />
 
             <input
                 placeholder="Enter Name 2"
+        
                 value={name2}
-                onChange={(e)=>setName2(e.target.value)}
-                className="p-3 rounded-xl outline-none border focus:ring-2 focus:ring-pink-400"
+                 onChange={(e)=>{
+        setName2(e.target.value)
+        setResult(null)
+    }}
+                className="p-3  rounded-xl outline-none border focus:ring-2 focus:ring-pink-400 font-sans"
             />
 
             <button
                 onClick={percentageCalcluater}
                 style={{cursor:"pointer"}}
-                className="bg-rose-500 hover:bg-rose-600 text-white py-3 rounded-xl font-semibold transition duration-300 "
+                className="bg-rose-500  hover:bg-rose-600 text-white py-3 rounded-xl font-semibold transition duration-300 "
             >
                 Check Your Status 💌
             </button>
 
             <AnimatePresence>
+                {result?.song && (
+  <audio key={result.song} autoPlay >
+    <source src={result.song} type="audio/mpeg" />
+  </audio>
+)}
+
 {result && (
     <motion.div
         initial={{ opacity: 0, scale: 0.7, y: 20 }}
